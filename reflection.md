@@ -11,5 +11,3 @@
 - Modularizing also made the code less prone to error. Before modularizing, we may have one long file that contains multiple errors, it is frustrating and daunting to fix them all. However, after modularizing, there would only be errors in each individual module, it would be much easier to solve. When we put all the modules together, we can be sure that modules we put together are error-free, and if we find errors in the main file, we can be sure it is from the main file.
 - Every meeting in our team was very effective. One team member drew diagrams to demonstrate the task and ensured everyone understood, this method was very efficient because we could avoid explaining things back and forth.
 
-### Group Reflection - Milestone 3
-- We had multiple peers give feedback that the order of the boxplots on the second tab should be chronological (time period from 1985-1999 before 2000-2014). As this required relabeling data columns, we have decided that we will address it when we create our plots in ggplot.
