@@ -2,7 +2,7 @@
 
 ## Chart 1
 
-![](Chart_1 Screenshot.png)
+![](chart_1_screenshot.png)
 
 ## Contributions
 
