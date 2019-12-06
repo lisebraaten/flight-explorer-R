@@ -1,6 +1,7 @@
 # flight-explorer-R
 
-
+## Chart 1
+![](Chart_1 Screenshot.png)
 
 ## Contributions
 
