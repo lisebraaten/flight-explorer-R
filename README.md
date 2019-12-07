@@ -8,6 +8,8 @@ Flight Explorer is a dashboard that visualizes airline flight data with regards 
 
 ![](chart_1_screenshot.png)
 
+## Chart 2 using ggplot
+
 ![](chart_2_screenshot.png)
 
 ## Contributions
