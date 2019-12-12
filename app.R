@@ -4,7 +4,6 @@ library(dashHtmlComponents)
 library(dashTable)
 library(tidyverse)
 library(plotly)
-
 app <- Dash$new(external_stylesheets = "https://codepen.io/chriddyp/pen/bWLwgP.css")
 
 # Selection components
@@ -197,4 +196,5 @@ app$callback(
   })
 
 
-app$run_server()
+
+app$run_server(host = "0.0.0.0", port = Sys.getenv('PORT', 8050))
