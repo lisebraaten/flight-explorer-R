@@ -23,3 +23,22 @@
 
 - The few pieces of feedback we were not able to address from the TA was the suggestions regarding selection by country. While this would be a really good feature, the data we chose does not contain any data. We could individually lookup the country of origin for each airline, but that would require additional data sources, and would be out of scope for this application.
 
+#### updates milestone 4:
+
+- Did not enforce modularization of code for our R app, as we didn’t have much time to look over and re-factor the code.
+
+- Switched order of box plots to be chronological and gave box plots more meaningful labels in the R version of our app (didn’t have time to re-wrangle the data to implement this in our Python app, so we addressed that feedback this time around).
+
+- We received feedback that a good feature could be to add selection by country of origin and we agree that this is a good potential future improvement to our app. We did not address it for this project as it would require finding additional data sources (our data source did not contain country of origin data) which was out of the scope of this project.
+
+- Made updates to a few interactive features based on feedback received on our Python app, narrowed down the number of radio buttons on tab one and switched from a drop down to radio buttons on tab two.
+
+- We noticed that the font size of the y-axis labels (airline names) in our bar chart was maybe a bit too large to see them all properly, this is a small visual element that could be improved upon (we looked into it and saw it required changing the theme and didn’t have the time to address it). 
+
+- TA feedback suggested focusing on practicing interactivity, we found it a little difficult to fine tune certain interactive elements as switching from default values was less intuitive and not always supported in dashR (did not support bootstrap components, for example).
+
+- Based on peer and TA feedback on our Python app, we added in descriptions of our plots and information on what data is being shown, included note to encourage users to hover over plots to utilize interactive elements and added sources for data and classification of First World countries.
+
+- We think we did a good job of continuing to use issues and pull requests to streamline our group processes. We recognize that some of us didn’t always include meaningful commit messages or communicate effectively over GitHub - this is something we all agree we need to continue to improve on for future group work.
+
+- Overall, we feel our app fulfilled our proposal 100%. It showed the intended plots of total fatality rates by airline, as well as boxplots of different variables by time period effectively. We did a good job addressing and implementing both peer and TA feedback when going from our Python app to our R app, however, due to the timeline and scope of this app, there are a few things we did not get around to polishing and some small aesthetic improvements that could be made.

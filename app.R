@@ -1,24 +1,9 @@
-### NOTE THIS VERSION IS A WORK IN PROGRESS
-### Lines listed as as "TODO" are where YOU need to add code to enable full functionality
-### Below is a helpful table that lists all the things to do , use it to mark your progress
-# [X] # TODO: Read this table and the instructions
-# [ ] # TODO: Add id to component - RangeSlider
-# [ ] # TODO: Add id to component - Dropdown
-# [ ] # TODO: Add id to component - Dropdown
-# [ ] # TODO: use yaxisKey (from above) and refactor the code below using - Dropdown
-# [ ] # TODO: Use a function make_graph() to create the graph. 
-# [ ] # TODO: Update line below to call make_graph() instead of calling ggplotly(p)
-# [ ] # TODO: once you create make_graph, remove this static ggplot plot below
-# [ ] # TODO: Update line below to call make_graph() instead of calling ggplotly(p)
-# [ ] # TODO: Add callbacks to enable interactivity
-
 library(dash)
 library(dashCoreComponents)
 library(dashHtmlComponents)
 library(dashTable)
 library(tidyverse)
 library(plotly)
-library(gapminder)
 
 app <- Dash$new(external_stylesheets = "https://codepen.io/chriddyp/pen/bWLwgP.css")
 
@@ -48,12 +33,6 @@ box_jitter_plot_radio_items <- dccRadioItems(
   ),
   value = "incident"
 )
-
-
-
-
-############ END make_graph() function to use ############
-
 
 return_fatality_barchart <- function(value = 1){
   
@@ -148,66 +127,71 @@ return_jitter_bar_fatality_chart <- function(value = "incident"){
   jitter_var_fatality_chart
 }
 
-
 horizontal_bar_chart <- dccGraph(
   id = 'fatality_barchart',
-  figure = ggplotly(return_fatality_barchart())
-)
+  figure = ggplotly(return_fatality_barchart()))
 
 jitter_var_fatality_chart <- dccGraph(
   id = 'jitter_var_fatality_chart',
-  figure = ggplotly(return_jitter_bar_fatality_chart())
-  
-)
+  figure = ggplotly(return_jitter_bar_fatality_chart()))
 
-app$layout(
-  htmlDiv(
+
+app$layout(htmlDiv(list(
+  htmlH1('Flight Explorer'),
+  htmlH2('Looking at flight incident data interactively'),
+  dccTabs(id="tabs-example", value='tab-1-example', children=list(
+    dccTab(label='Fatality rates per billion by airlines', value='tab-1-example'),
+    dccTab(label='Counts of different categories of incidents', value='tab-2-example')
+  )),
+  htmlDiv(id='tabs-content-example')
+)))
+
+app$callback(
+  output = list(id='tabs-content-example', property = 'children'),
+  params = list(input(id = 'tabs-example', property = 'value')),
+
+
+  function(tab){
+    if(tab == 'tab-1-example'){
+      return(  htmlDiv(
     list(
-      htmlH1('Flight Explorer'),
-      htmlH2('Looking at flight incident data interactively'),
-      #selection components go here
-      # htmlLabel('Select a year range:'),
-      # yearSlider,
-      # htmlIframe(height=15, width=10, style=list(borderWidth = 0)), #space
-      # htmlLabel('Select continents:'),
-      # continentDropdown,
-      # htmlLabel('Select y-axis metric:'),
+      dccMarkdown("This bar chart shows the adjusted fatality rate, calculated as number of fatal incidents, normalized by the total distance each airline flys, as wells as the nubmer of seats per flight."), 
+      dccMarkdown("Hover over each bar to see each airline's adjusted fatality rate."),
+      dccMarkdown("The airlines are grouped by the economic status of their orginating country, where countries of a sufficient economic status is designated [**first world**](https://www.nationsonline.org/oneworld/first_world.htm)."),
       bar_chart_radio_items,
-      #end selection components
       horizontal_bar_chart,
-      box_jitter_plot_radio_items,
-      jitter_var_fatality_chart,
       htmlIframe(height=20, width=10, style=list(borderWidth = 0)), #space
       dccMarkdown("data taken from [github](https://github.com/fivethirtyeight/data/tree/master/airline-safety), originally used for [this fiveThirtyEight article](https://fivethirtyeight.com/features/should-travelers-avoid-flying-airlines-that-have-had-crashes-in-the-past/).")
     )
   )
+  )
+ }
+
+    else if(tab == 'tab-2-example'){
+      return(
+          htmlDiv(
+    list(
+      box_jitter_plot_radio_items,
+      jitter_var_fatality_chart,
+      htmlIframe(height=20, width=10, style=list(borderWidth = 0))
+    )
+  )
+      )
+    }
+  }
 )
 
-### # TODO: Add callbacks to enable interactivity
-
-# # Adding callbacks for interactivity
 app$callback(
-#   # update figure of gap-graph
   output=list(id = 'fatality_barchart', property='figure'),
-#   
-#   # based on values of year, continent, y-axis components
-#   # TODO: Update the IDs of the components (note: remember that order matters!!)
   params=list(input(id = 'bar_chart_radio_items', property='value')),
-#
-#   # this translates your list of params into function arguments
+
   function(radio_value) {
     ggplotly(return_fatality_barchart(radio_value))
   })
 
 app$callback(
-  #   # update figure of gap-graph
   output=list(id = 'jitter_var_fatality_chart', property='figure'),
-  #   
-  #   # based on values of year, continent, y-axis components
-  #   # TODO: Update the IDs of the components (note: remember that order matters!!)
   params=list(input(id = 'box_jitter_plot_radio_items', property='value')),
-  #
-  #   # this translates your list of params into function arguments
   function(radio_value) {
     ggplotly(return_jitter_bar_fatality_chart(radio_value))
   })
