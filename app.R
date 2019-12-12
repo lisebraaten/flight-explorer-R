@@ -38,6 +38,19 @@ bar_chart_radio_items <- dccRadioItems(
   value = 1
 )
 
+box_jitter_plot_radio_items <- dccRadioItems(
+  id = "box_jitter_plot_radio_items",
+  options=list(
+    list(label = "lethality", value = "lethality"), 
+    list(label = "fatalities", value = "fatalities"),
+    list(label = "incident", value = "incident"),
+    list(label = "fatal accident", value = "fatal_accident")
+  ),
+  value = "incident"
+)
+
+
+
 
 ############ END make_graph() function to use ############
 
@@ -77,6 +90,7 @@ return_fatality_barchart <- function(value = 1){
 return_jitter_bar_fatality_chart <- function(value = "incident"){
   
   chart_1_data <- read_csv("chart_1_data.csv")
+  
   jitter_var_fatality_chart <- chart_1_data %>%
     ggplot(aes(x = fatalities_period,#reorder(fatalities_period, ~fatalities_value, FUN=median),
                y = fatalities_value)) +
@@ -88,6 +102,48 @@ return_jitter_bar_fatality_chart <- function(value = "incident"){
          title = "count of airline fatalities") +
     theme(plot.title = element_text(hjust = 0.5)) +
     scale_x_discrete(labels = c("Fatalies 1985-1999", "Fatalities 2000-2014"))
+  
+  if(value == "incident"){
+    
+    jitter_var_fatality_chart <- chart_1_data %>%
+      ggplot(aes(x = incident_period,#reorder(fatalities_period, ~fatalities_value, FUN=median),
+                 y = incident_value)) +
+      geom_boxplot(width  = 0.5) +
+      geom_jitter(alpha = 0.2,
+                  width = 0.1) +
+      labs(x="Time period", 
+           y = "count",
+           title = "count of airline incidents") +
+      theme(plot.title = element_text(hjust = 0.5)) +
+      scale_x_discrete(labels = c("incidents 1985-1999", "incidents 2000-2014"))
+  }
+  else if (value == "lethality"){
+    
+    jitter_var_fatality_chart <- chart_1_data %>%
+      ggplot(aes(x = lethality_period,#reorder(fatalities_period, ~fatalities_value, FUN=median),
+                 y = lethality_value)) +
+      geom_boxplot(width  = 0.5) +
+      geom_jitter(alpha = 0.2,
+                  width = 0.1) +
+      labs(x="Time period", 
+           y = "count",
+           title = "ratio of airline lethality") +
+      theme(plot.title = element_text(hjust = 0.5)) +
+      scale_x_discrete(labels = c("lethality 1985-1999", "lethality 2000-2014"))
+  }
+  else{
+    jitter_var_fatality_chart <- chart_1_data %>%
+      ggplot(aes(x = fatal_accident_period,#reorder(fatalities_period, ~fatalities_value, FUN=median),
+                 y = fatal_accident_value)) +
+      geom_boxplot(width  = 0.5) +
+      geom_jitter(alpha = 0.2,
+                  width = 0.1) +
+      labs(x="Time period", 
+           y = "count",
+           title = "count of airline fatal incidents") +
+      theme(plot.title = element_text(hjust = 0.5)) +
+      scale_x_discrete(labels = c("Fatal Incidents 1985-1999", "Fatal Incidents 2000-2014"))
+    }
   
   jitter_var_fatality_chart
 }
@@ -119,9 +175,10 @@ app$layout(
       bar_chart_radio_items,
       #end selection components
       horizontal_bar_chart,
+      box_jitter_plot_radio_items,
       jitter_var_fatality_chart,
       htmlIframe(height=20, width=10, style=list(borderWidth = 0)), #space
-      dccMarkdown("[Data Source](https://cran.r-project.org/web/packages/gapminder/README.html)")
+      dccMarkdown("data taken from [github](https://github.com/fivethirtyeight/data/tree/master/airline-safety), originally used for [this fiveThirtyEight article](https://fivethirtyeight.com/features/should-travelers-avoid-flying-airlines-that-have-had-crashes-in-the-past/).")
     )
   )
 )
@@ -141,5 +198,19 @@ app$callback(
   function(radio_value) {
     ggplotly(return_fatality_barchart(radio_value))
   })
+
+app$callback(
+  #   # update figure of gap-graph
+  output=list(id = 'jitter_var_fatality_chart', property='figure'),
+  #   
+  #   # based on values of year, continent, y-axis components
+  #   # TODO: Update the IDs of the components (note: remember that order matters!!)
+  params=list(input(id = 'box_jitter_plot_radio_items', property='value')),
+  #
+  #   # this translates your list of params into function arguments
+  function(radio_value) {
+    ggplotly(return_jitter_bar_fatality_chart(radio_value))
+  })
+
 
 app$run_server()
