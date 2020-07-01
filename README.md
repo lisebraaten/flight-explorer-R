@@ -4,7 +4,7 @@ Flight safety is often an important issue. Airlines are financially affected by 
 
 Flight Explorer is a dashboard that visualizes airline flight data with regards to flight incidents at different airlines, and displays them by airlines, incident numbers, as well as other factors such as first-world status of originating airlines, and lethality of air incidents.
 
-Heroku app can be found [here.](https://group-111-flight-explorer-r.herokuapp.com/)
+Heroku app can be accessed [here.](https://group-111-flight-explorer-r.herokuapp.com/)
 
 ## Chart 1 using ggplot
 
